@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Home application theme. -->
+    <style name="Home.Theme.CompassTest" parent="Theme.AppCompat.NoActionBar">
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+</resources>

@@ -3,6 +3,7 @@ package com.edominguez.compasstest.controller
 import android.util.Log
 import com.edominguez.compasstest.network.ApiClient
 import com.edominguez.compasstest.network.ApiService
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,20 +16,25 @@ class ApiController {
         client.create(ApiService::class.java)
     }
 
-    fun fetchData() {
-        val call: Call<String> = apiService.fetchData()
-        call.enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+    fun fetchCharacterRequest(callback: (String?) -> Unit) {
+        val call = apiService.fetchData()
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
-                    val data: String = response.body().toString()
-                    Log.e("onResponse", data)
+                    val responseBody: ResponseBody? = response.body()
+                    val html: String? = responseBody?.string()
+                    callback(html)
+                } else {
+                    Log.e("NETWORK_ERROR", "Error fetching data: ")
+                    callback(null)
                 }
             }
 
-            override fun onFailure(call: Call<String>, t: Throwable?) {
-                Log.e("onFailure", t.toString())
-
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e("TAG", "Error fetching user data", t)
+                callback(null)
             }
         })
     }
+
 }

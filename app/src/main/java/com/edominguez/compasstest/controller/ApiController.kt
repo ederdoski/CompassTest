@@ -43,22 +43,57 @@ class ApiController(private val preferences: Preferences) {
             }
         }
     }
-
-    fun fetchDataUsingCoroutine(callback: (String?) -> Unit) {
-        CoroutineScope(Dispatchers.Main).launch {
-            val result = fetchCharacterRequest()
-            saveHTMLData(result)
-            callback(result)
+    private suspend fun fetchWordCounterRequest(): String? {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = apiService.fetchData().awaitResponse()
+                if (response.isSuccessful) {
+                    val responseBody: ResponseBody? = response.body()
+                    responseBody?.string()
+                } else {
+                    Log.e("NETWORK_ERROR", "Error fetching data")
+                    null
+                }
+            } catch (e: IOException) {
+                Log.e("TAG", "Error fetching user data", e.cause)
+                null
+            }
         }
     }
 
-    fun saveHTMLData(htmlData:String?) {
+    fun fetchCharacterRequestCoroutine(callback: (String?) -> Unit) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val localData = getHTMLData()
+            if (localData != EMPTY_STRING) {
+                callback(localData)
+            } else {
+                val result = fetchCharacterRequest()
+                saveHTMLData(result)
+                callback(result)
+            }
+        }
+    }
+
+    fun fetchWordCounterRequestCoroutine(callback: (String?) -> Unit) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val localData = getHTMLData()
+            if (localData != EMPTY_STRING) {
+                callback(localData)
+            } else {
+                val result = fetchWordCounterRequest()
+                saveHTMLData(result)
+                callback(result)
+            }
+        }
+    }
+
+    private fun saveHTMLData(htmlData:String?) {
         if(getHTMLData() != EMPTY_STRING && htmlData != null) {
             preferences.htmlData = htmlData
         }
     }
 
-    fun getHTMLData():String {
+    private fun getHTMLData():String {
         return preferences.htmlData
     }
 

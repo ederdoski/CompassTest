@@ -3,10 +3,13 @@
 
 
     <string name="txt_title">Compass Test</string>
+    <string name="txt_word_quantity">Words Counted: %1$d</string>
     <string name="txt_character_quantity">Quantity of Characters Processes: </string>
     <string name="txt_character_quantity_resulted">Quantity of Characters Resulted: </string>
     <string name="txt_array_characters">Array : </string>
     <string name="btn_fetch">Fetch Data</string>
     <string name="btn_copy">Copy Data</string>
     <string name="txt_error_data">Error processing data</string>
+    <string name="txt_word_counter">Found %1$d times</string>
+    <string name="txt_word">Word: %1$s</string>
 </resources>

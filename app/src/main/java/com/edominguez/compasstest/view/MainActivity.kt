@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         apiController.fetchWordCounterRequestCoroutine { html ->
             html?.let {
                 hideProgress()
-                val words = htmlParser.wordsCount(html)
+                val words = htmlParser.wordsCount("<p> Compass Hello World </p> <p> Compass Hello World </p> <pp> Compass Hello World </p> <pp> Compass Hello World </p>")
                 setCountWordsUI(words)
             } ?: run {
                 hideProgress()

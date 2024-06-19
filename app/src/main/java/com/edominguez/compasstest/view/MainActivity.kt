@@ -11,6 +11,7 @@ import com.edominguez.compasstest.R
 import com.edominguez.compasstest.controller.ApiController
 import com.edominguez.compasstest.utils.Functions
 import com.edominguez.compasstest.utils.HTMLParser
+import com.edominguez.compasstest.utils.Preferences
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvQuantityOfCharactersResulted: TextView
 
     private lateinit var htmlParser: HTMLParser
+    private lateinit var preferences: Preferences
     private lateinit var apiController: ApiController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +38,8 @@ class MainActivity : AppCompatActivity() {
     // Logic Methods
     private fun initActivity() {
         htmlParser = HTMLParser()
-        apiController = ApiController()
+        preferences = Preferences(this)
+        apiController = ApiController(preferences)
     }
 
     private fun setOnClickListener() {
@@ -50,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchCharacterRequest() {
-        apiController.fetchCharacterRequest { html ->
+        apiController.fetchDataUsingCoroutine { html ->
             html?.let {
                 val characters = htmlParser.saveEveryTenCharacters(html)
                 setCharactersUI(characters, html)

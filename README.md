@@ -36,7 +36,7 @@ This approach minimizes network overhead and speeds up data processing.
 The application includes unit tests to verify:
 
 * Accurate extraction of every 10th character.
-*Proper counting of words, case insensitivity, and handling of whitespace.
+* Proper counting of words, case insensitivity, and handling of whitespace.
 
 # Screen Capture
 

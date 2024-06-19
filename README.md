@@ -23,7 +23,7 @@ Upon launching the app, click the "Fetch Data" button to initiate the requests.
 Results from Every10thCharacterRequest and WordCounterRequest will be displayed as soon as they are processed.
 Data is cached locally for offline viewing after the initial fetch.
 
-* If you have problems running the app, you will get a compilation in the following path [app --> app-debug.apk](https://github.com/ederdoski/CompassTest/app)
+* If you have problems running the app, you will get a compilation in the following path [app --> app-debug.apk](https://github.com/ederdoski/CompassTest/blob/main/app/app-debug.apk)
 
 # Improvements
 To optimize performance and reduce redundant network calls:

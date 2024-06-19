@@ -3,6 +3,7 @@ package com.edominguez.compasstest.view
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,19 +17,21 @@ import com.edominguez.compasstest.utils.Preferences
 
 class MainActivity : AppCompatActivity() {
 
+
+    private lateinit var htmlParser: HTMLParser
+    private lateinit var preferences: Preferences
+    private lateinit var apiController: ApiController
+
     private lateinit var btnFetchData: Button
     private lateinit var btnCopyArray: Button
     private lateinit var tvCharacters: TextView
     private lateinit var lyWordsComponent: View
     private lateinit var tvWordsCounted: TextView
     private lateinit var lyCharacterComponent: View
+    private lateinit var progressCircular: ProgressBar
     private lateinit var recyclerViewWords: RecyclerView
     private lateinit var tvQuantityOfCharacters: TextView
     private lateinit var tvQuantityOfCharactersResulted: TextView
-
-    private lateinit var htmlParser: HTMLParser
-    private lateinit var preferences: Preferences
-    private lateinit var apiController: ApiController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,22 +61,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchCharacterRequest() {
+        showProgress()
         apiController.fetchCharacterRequestCoroutine { html ->
             html?.let {
+                hideProgress()
                 val characters = htmlParser.saveEveryTenCharacters(html)
                 setCharactersUI(characters, html)
             } ?: run {
+                hideProgress()
                 Toast.makeText(this, getString(R.string.txt_error_data), Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun fetchWordCounterRequest() {
+        showProgress()
         apiController.fetchWordCounterRequestCoroutine { html ->
             html?.let {
+                hideProgress()
                 val words = htmlParser.wordsCount(html)
                 setCountWordsUI(words)
             } ?: run {
+                hideProgress()
                 Toast.makeText(this, getString(R.string.txt_error_data), Toast.LENGTH_SHORT).show()
             }
         }
@@ -82,6 +91,7 @@ class MainActivity : AppCompatActivity() {
     // ---------- UI Methods
 
     private fun initUI() {
+        progressCircular = findViewById(R.id.progressCircular)
         btnFetchData = findViewById(R.id.btnFetchData)
         btnCopyArray = findViewById(R.id.btnCopyArray)
         tvWordsCounted = findViewById(R.id.tvWordsCounted)
@@ -107,5 +117,13 @@ class MainActivity : AppCompatActivity() {
 
         recyclerViewWords = findViewById(R.id.recyclerViewWords)
         recyclerViewWords.adapter = tmpAdapter
+    }
+
+    private fun showProgress() {
+        progressCircular.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        progressCircular.visibility = View.GONE
     }
 }

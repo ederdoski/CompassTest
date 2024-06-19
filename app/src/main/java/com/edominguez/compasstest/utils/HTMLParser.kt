@@ -19,7 +19,7 @@ class HTMLParser {
     fun wordsCount(html: String):ArrayList<WordCounter> {
         val lowercaseText = html.lowercase()
 
-        val delimiters = charArrayOf(' ', '\n', '\t', '\r')
+        val delimiters = charArrayOf(BLANK_SPACE, LINE_BREAK, TABULATOR, RETURN)
 
         val delimitedWords = lowercaseText.split(*delimiters)
 

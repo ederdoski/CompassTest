@@ -88,7 +88,7 @@ class ApiController(private val preferences: Preferences) {
     }
 
     private fun saveHTMLData(htmlData:String?) {
-        if(getHTMLData() != EMPTY_STRING && htmlData != null) {
+        if(getHTMLData() == EMPTY_STRING && htmlData != null) {
             preferences.htmlData = htmlData
         }
     }
